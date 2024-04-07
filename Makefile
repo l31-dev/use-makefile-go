@@ -65,7 +65,7 @@ push: tidy audit no-dirty
 ## production/deploy: Tag and create a new release on Github
 production/deploy: confirm tidy audit no-dirty
 	GOOS=linux GOARCH=amd64 go build -ldflags='-s' -o=/tmp/bin/linux_amd64/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
-	upx 
+	upx -o=/tmp/bin/linux_amd64/${BINARY_NAME} /tmp/bin/linux_amd64/${BINARY_NAME}
 
 install/manjaro:
 	sudo pacman -S --noconfirm go
