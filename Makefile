@@ -63,14 +63,11 @@ push: tidy audit no-dirty
 
 
 ## production/deploy: Tag and create a new release on Github
-production/deploy: confirm
-	# build and upload release
-	git tag ${VERSION}
-	git push origin ${VERSION}
-	ghr -u ${GITHUB_USER} -r ${GITHUB_REPO} -t ${GITHUB_TOKEN} ${VERSION} ./dist/
-
+production/deploy: confirm tidy audit no-dirty
+	GOOS=linux GOARCH=amd64 go build -ldflags='-s' -o=/tmp/bin/linux_amd64/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
+	upx 
 
 install/manjaro:
 	sudo pacman -S --noconfirm go
-	sudo pamac install --noconfirm github-cli
+	sudo pamac install github-cli upx
 
